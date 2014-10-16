@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+
+require 'libratod'
+require 'logfmt'
+
+parser = Libratod::Parser.new
+
+ARGF.each_line do |l|
+  puts parser.parse(Logfmt.parse(l))
+end
