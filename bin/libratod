@@ -1,10 +1,24 @@
 #!/usr/bin/env ruby
 
-require 'libratod'
+require 'librato/metrics'
 require 'logfmt'
+require 'libratod'
+
+# config
+source        = ENV.fetch('SOURCE')
+librato_user  = ENV.fetch('LIBRATO_USER')
+librato_token = ENV.fetch('LIBRATO_TOKEN')
+
+Librato::Metrics.authenticate librato_user, librato_token
+
+aggregator = Librato::Metrics::Aggregator.new({
+  source:              source,
+  autosubmit_interval: 5
+})
 
 parser = Libratod::Parser.new
 
 ARGF.each_line do |l|
-  puts parser.parse(Logfmt.parse(l))
+  metrics = parser.parse(Logfmt.parse(l))
+  aggregator.add metrics unless metrics.size.zero?
 end

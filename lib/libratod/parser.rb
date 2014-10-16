@@ -3,18 +3,20 @@ module Libratod
     def parse(h)
       name = h['name']
       {}.tap do |data|
-        if x = h['namelookup_time']
-          data["#{name}.namelookup_time"] = x
+        if v = h['namelookup_time']
+          data["#{name}.namelookup_time"] = v
         end
 
-        if x = h['connect_time']
-          data["#{name}.connect_time"] = x
+        if v = h['connect_time']
+          data["#{name}.connect_time"] = v
         end
-        if x = h['starttransfer_time']
-          data["#{name}.starttransfer_time"] = x
+
+        if v = h['starttransfer_time']
+          data["#{name}.starttransfer_time"] = v
         end
-        if x = h['total_time']
-          data["#{name}.total_time"] = x
+
+        if v = h['total_time']
+          data["#{name}.total_time"] = v
         end
 
         if h['http_status']
