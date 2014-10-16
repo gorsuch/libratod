@@ -19,6 +19,7 @@ aggregator = Librato::Metrics::Aggregator.new({
 parser = Libratod::Parser.new
 
 ARGF.each_line do |l|
-  metrics = parser.parse(Logfmt.parse(l))
+  h = Logfmt.parse(l) rescue {}
+  metrics = parser.parse(h)
   aggregator.add metrics unless metrics.size.zero?
 end
